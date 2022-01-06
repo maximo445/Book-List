@@ -1,0 +1,40 @@
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0; }
+
+body {
+  color: #2e2e2e;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #8a8080; }
+  body #container {
+    background: white;
+    width: 600px;
+    margin-top: 45px;
+    padding: 15px;
+    border-radius: 8px; }
+    body #container .input-container {
+      display: flex;
+      flex-direction: column;
+      margin: 15px 0; }
+      body #container .input-container label {
+        font-weight: bold; }
+      body #container .input-container input {
+        padding: 7px;
+        border-radius: 5px;
+        border: solid 1px #8a8080; }
+    body #container #submit-btn {
+      width: 100%;
+      padding: 7px;
+      color: white;
+      background: #2e2e2e;
+      border: solid 3px #8a8080;
+      border-radius: 5px; }
+    body #container #book-list-table {
+      margin: 20px 0 0 0;
+      width: 100%; }
+      body #container #book-list-table tr td {
+        text-align: center; }
