@@ -14,7 +14,7 @@ class UI {
         `<td>${book.title}</td>
         <td>${book.author}</td>
         <td>${book.isbn}</td>
-        <td>x</td>
+        <td class="delete">x</td>
         `
         booksTable.appendChild(tr);
     }
@@ -36,6 +36,19 @@ class UI {
             myAlert.remove();
         }, 3000);
     }
+
+    deleteBook(target) {
+        console.log(target)
+        if (target.classList.contains('delete')) {
+            target.parentElement.remove();
+        }
+    }
+
+    clearFields() {
+        document.querySelector('#title').value = "";
+        document.querySelector('#author').value = "";
+        document.querySelector('#isbn').value = "";
+    }
 }
 
 document.querySelector('#submit-btn').addEventListener('click', function () {
@@ -50,8 +63,14 @@ document.querySelector('#submit-btn').addEventListener('click', function () {
     } else {  
         const book = new Book(title, author, isbn);    
         ui.addBookToList(book);
+        ui.showAlert('Book was added to the list!', 'success');
+        ui.clearFields();
     }
+});
 
-
+document.querySelector('#book-list-table').addEventListener('click', function (event) {
+    const ui = new UI();
+    ui.deleteBook(event.target);
+    ui.showAlert('Book was removed successfully', 'success')
 });
 

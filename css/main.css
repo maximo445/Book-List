@@ -3,12 +3,23 @@
   padding: 0;
   margin: 0; }
 
-.remove {
+.delete {
+  color: white;
+  height: 20px;
+  width: 35px;
+  padding: 5px;
+  background: #2e2e2e;
+  border: 3px solid #8a8080;
+  border-radius: 50%;
+  cursor: pointer; }
+
+.success {
   background: green;
   text-align: center;
   color: white;
   width: 100%;
   padding: 10px;
+  margin: 15px 0;
   border-radius: 5px; }
 
 .error {
@@ -17,6 +28,7 @@
   color: white;
   width: 100%;
   padding: 10px;
+  margin: 15px 0;
   border-radius: 5px; }
 
 body {
