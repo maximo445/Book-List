@@ -3,6 +3,22 @@
   padding: 0;
   margin: 0; }
 
+.remove {
+  background: green;
+  text-align: center;
+  color: white;
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px; }
+
+.error {
+  background: red;
+  text-align: center;
+  color: white;
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px; }
+
 body {
   color: #2e2e2e;
   display: flex;

@@ -18,6 +18,24 @@ class UI {
         `
         booksTable.appendChild(tr);
     }
+
+    showAlert(message, className) {
+        const myAlert = document.createElement('div');
+        myAlert.className = `${className}`
+
+        console.log(myAlert);
+
+        myAlert.appendChild(document.createTextNode(message));
+        const container = document.querySelector('#container');
+        console.log(container)
+        const heading = document.querySelector('#container h1');
+        console.log(heading);
+        container.insertBefore(myAlert, heading);
+
+        setTimeout(() => {
+            myAlert.remove();
+        }, 3000);
+    }
 }
 
 document.querySelector('#submit-btn').addEventListener('click', function () {
@@ -25,11 +43,15 @@ document.querySelector('#submit-btn').addEventListener('click', function () {
     const author = document.querySelector('#author').value;
     const isbn = document.querySelector('#isbn').value;
 
-    const ui = new UI();
+    const ui = new UI();  
 
-    const book = new Book(title, author, isbn);
+    if (title === "" || author === "" || isbn === "") {
+        ui.showAlert('Check your inputs', 'error');
+    } else {  
+        const book = new Book(title, author, isbn);    
+        ui.addBookToList(book);
+    }
 
-    ui.addBookToList(book);
 
 });
 
