@@ -1,3 +1,5 @@
+let count = 0;
+
 class Book {
     constructor(title, author, isbn) {
         this.title = title;
@@ -8,28 +10,26 @@ class Book {
 
 class UI {
     addBookToList(book) {
-        const booksTable = document.querySelector('#book-list-table');
-        const tr = document.createElement('tr');
-        tr.innerHTML = 
-        `<td>${book.title}</td>
-        <td>${book.author}</td>
-        <td>${book.isbn}</td>
-        <td class="delete">x</td>
-        `
-        booksTable.appendChild(tr);
+        
+        Store.addBook(book);
+        
+        // const booksTable = document.querySelector('#book-list-table');       
+        // const tr = document.createElement('tr');
+        // tr.innerHTML = 
+        // `<td>${book.title}</td>
+        // <td>${book.author}</td>
+        // <td>${book.isbn}</td>
+        // <td class="delete">x</td>
+        // `
+        // booksTable.appendChild(tr);
     }
 
     showAlert(message, className) {
         const myAlert = document.createElement('div');
         myAlert.className = `${className}`
-
-        console.log(myAlert);
-
         myAlert.appendChild(document.createTextNode(message));
         const container = document.querySelector('#container');
-        console.log(container)
         const heading = document.querySelector('#container h1');
-        console.log(heading);
         container.insertBefore(myAlert, heading);
 
         setTimeout(() => {
@@ -38,10 +38,41 @@ class UI {
     }
 
     deleteBook(target) {
-        console.log(target)
         if (target.classList.contains('delete')) {
             target.parentElement.remove();
         }
+
+        let myBooks = Store.getBooks();
+        let myString = `[`;
+        let index = 1;
+        let size = myBooks.length;
+        console.log(size);
+        let comma;
+        myBooks.forEach(function (book) {
+            if (size > index) {
+                comma = ',';
+            } else {
+                comma = '';
+            }
+
+            if (target.parentElement.children[2].innerText == book.isbn) {
+
+            } else {
+
+                myString += `{"title": "${book.title}", "author": "${book.author}", "isbn": "${book.isbn}", "id": "0"}${comma}`;
+            }
+
+            index++;
+        });
+
+        myString += `]`;
+
+        localStorage.setItem('books', myString);
+
+        Store.displayBooks();
+
+        console.log('My created string: ' + myString);
+
     }
 
     clearFields() {
@@ -50,6 +81,55 @@ class UI {
         document.querySelector('#isbn').value = "";
     }
 }
+
+class Store {
+    static getBooks () {
+        let books;
+        if(localStorage.getItem('books') === null) {
+            books = [];
+            return books;
+        } else {
+            console.log(localStorage.getItem('books'));
+            books = JSON.parse(localStorage.getItem('books'));
+            console.log(books);
+            return books;
+        }
+    }
+
+    static displayBooks () {
+        const booksTable = document.querySelector('#book-list-table');         
+        const bookRows = Array.from(document.querySelectorAll('.book-row'));
+        bookRows.forEach(function (book) {
+            book.remove();
+        });
+
+        let books = Store.getBooks();
+        books.forEach(book => {
+            const tr = document.createElement('tr');  
+            tr.className = 'book-row';
+            tr.innerHTML = 
+                            `<td>${book.title}</td>
+                            <td>${book.author}</td>
+                            <td>${book.isbn}</td>
+                            <td class="delete">x</td>
+                            `
+            booksTable.appendChild(tr);
+        }); 
+    }
+
+    static addBook(book) {
+        let books = Store.getBooks();
+        books.push(book);
+        localStorage.setItem('books', JSON.stringify(books));
+        Store.displayBooks();
+    }
+
+    static removeBook(target) {
+       
+    }
+}
+
+document.addEventListener('DOMContentLoaded', Store.displayBooks());
 
 document.querySelector('#submit-btn').addEventListener('click', function () {
     const title = document.querySelector('#title').value;
@@ -61,8 +141,10 @@ document.querySelector('#submit-btn').addEventListener('click', function () {
     if (title === "" || author === "" || isbn === "") {
         ui.showAlert('Check your inputs', 'error');
     } else {  
-        const book = new Book(title, author, isbn);    
+        const book = new Book(title, author, isbn); 
+        book.id = `${count}`;   
         ui.addBookToList(book);
+        count++;
         ui.showAlert('Book was added to the list!', 'success');
         ui.clearFields();
     }
